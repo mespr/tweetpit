@@ -1,0 +1,17 @@
+{
+  "name": "tweetpit",
+  "version": "1.0.0",
+  "description": "Opinionate, if you're lucky",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "node --env-file .env index.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Michael Sprague",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "moment": "^2.30.1"
+  }
+}
