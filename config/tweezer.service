@@ -1,9 +1,9 @@
 [Unit]
-Description=Tweezer
+Description=Tweetpit
 
 [Service]
 Type=simple
-WorkingDirectory=/opt/tweezer/
+WorkingDirectory=/home/ubuntu/tweetpit
 ExecStart=/usr/bin/npm start &
 Restart=always
 StandardOutput=journal
