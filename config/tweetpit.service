@@ -4,7 +4,7 @@ Description=Tweetpit
 [Service]
 Type=simple
 WorkingDirectory=/home/ubuntu/tweetpit
-ExecStart=/usr/bin/npm start &
+ExecStart=npm start &
 Restart=always
 StandardOutput=journal
 StandardError=journal
