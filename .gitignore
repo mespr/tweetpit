@@ -9,10 +9,10 @@ node_modules
 jspm_packages
 test_modules
 .npm
+data.json
 package-lock\.json
 .npmrc
 .env
 *.snap
 *.heapsnapshot
 .vscode/
-data.json
