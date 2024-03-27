@@ -26,7 +26,7 @@ onload = async () =>{
     voteButton.addEventListener('click',async ()=>{
         let result = await API.get('/list');
         candidates.innerHTML = result.reduce((result,post)=>{
-            result += `<div class="feature-option">
+            result += `<div id="${post.id}" class="feature-option">
                 <div class="option-emotion">
                     <span class='icon icon-thumbs-down'></span>
                 </div>
@@ -43,13 +43,15 @@ onload = async () =>{
             candidates.classList.remove('active');
         });
         document.querySelectorAll('.feature-option').forEach((option)=>{
-            option.querySelector('.icon-thumbs-up').addEventListener('click',()=>{
+            option.querySelector('.icon-thumbs-up').addEventListener('click',async ()=>{
                 if (option.classList.contains('up') || option.classList.contains('down')) return;
                 option.classList.add('up');
+                await API.get(`/vote/${option.id}/true`);
             });
-            option.querySelector('.icon-thumbs-down').addEventListener('click',()=>{
+            option.querySelector('.icon-thumbs-down').addEventListener('click',async ()=>{
                 if (option.classList.contains('up') || option.classList.contains('down')) return;
                 option.classList.add('down');
+                await API.get(`/vote/${option.id}/false`);
             });
         });
     });

@@ -43,7 +43,7 @@ let main = async function() {
     })
     app.get('/vote/:id/:like',(req,res)=>{
         try {
-            let result = data.vote(req.params.id,req.params.like.match(/true/));
+            let result = data.vote(req.params.id,!!req.params.like.match(/true/));
             res.status(200).json(result);
         } catch(e) {
             console.error(e);

@@ -24,7 +24,6 @@ export default class Data {
 
     /**
      * Given a post, randomly select it based on traffic.
-     * All posts expire in three hours
      */
     tryEntry(body) {
         if (this.posts.length < this.maxRotation) {
@@ -45,13 +44,14 @@ export default class Data {
     /**
      * Up or down vote a post
      */
-    vote() {
+    vote(id,stance) {
+        let index = this.posts.findIndex((post)=>{return post.id === id})
+        if (index >= 0) this.posts[index][stance?'ups':'downs']++;
         this.posts.sort((a,b)=>{
-            if (a.ups > b.ups) return 1;
-            if (a.ups <= b.ups) return -1;
-            if (a.downs < b.downs) return 1;
-            if (a.downs <= b.downs) return -1;
+            if (a.ups - a.downs === b.ups - b.downs) return 0;
+            return (a.ups - a.downs > b.ups - b.downs)?-1:1;
         })
+        return {vote:stance};
     }
 
     /**
