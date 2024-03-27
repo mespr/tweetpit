@@ -3,7 +3,7 @@ Description=Tweetpit
 
 [Service]
 Type=simple
-WorkingDirectory=/home/ubuntu/tweetpit
+WorkingDirectory=/opt/tweetpit
 ExecStart=npm start &
 Restart=always
 StandardOutput=journal
