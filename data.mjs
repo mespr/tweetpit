@@ -7,8 +7,7 @@ import moment from 'moment';
 export default class Data {
     constructor() {
         this.maxRotation = 10;
-        this.maxLife = 2; //minutes
-        this.rate = 0;
+        this.maxLife = 60; //minutes
 
         let fileData = fs.readFileSync('./data.json');
         this.posts = fileData?JSON.parse(fileData):[];
@@ -47,22 +46,25 @@ export default class Data {
      * Up or down vote a post
      */
     vote() {
-
+        this.posts.sort((a,b)=>{
+            if (a.ups > b.ups) return 1;
+            if (a.ups <= b.ups) return -1;
+            if (a.downs < b.downs) return 1;
+            if (a.downs <= b.downs) return -1;
+        })
     }
 
     /**
      * Return current selection of posts
      */
     list() {
-
+        return this.posts;
     }
 
     rotate() {
         this.posts = this.posts.reduce((accumulator,post)=>{
             if (moment().subtract(this.maxLife,'minutes').isBefore(moment(post.exp))) {
                 accumulator.push(post);
-            } else {
-                console.log('remove '+post.id);
             }
             return accumulator;
         },[])

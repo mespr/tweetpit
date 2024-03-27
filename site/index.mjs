@@ -2,10 +2,14 @@
  *
  */
 onload = async () =>{
+    let mainDiv = document.querySelector('#main');
     let entryPost = document.querySelector('#entry-post');
     let entryStatus = document.querySelector('#entry-status');
     let entrySend = document.querySelector('#entry-send');
     let featured = document.querySelector('#featured');
+    let voteButton = document.querySelector('#vote');
+    let popup = document.querySelector('#popup-shim');
+    let candidates = document.querySelector('#feature-list');
     entryPost.setAttribute('maxlength','256');
     let statusDefault = "Please avoid profanity"
     entryStatus.innerHTML = statusDefault;
@@ -19,6 +23,41 @@ onload = async () =>{
         entryPost.value = '';
         entryStatus.innerHTML = statusDefault;
     });
+    voteButton.addEventListener('click',async ()=>{
+        let result = await API.get('/list');
+        candidates.innerHTML = result.reduce((result,post)=>{
+            result += `<div class="feature-option">
+                <div class="option-emotion">
+                    <span class='icon icon-thumbs-down'></span>
+                </div>
+                <div class="option-body">${post.body}</div>
+                <div class="option-emotion">
+                    <span class='icon icon-thumbs-up'></span>
+                </div>
+            </div>`
+            return result;
+        },'<h2>Candidates for the Feature</h2><span class="icon exit icon-circle-with-cross"></span>');
+        popup.classList.add('active');
+        candidates.classList.add('active');
+        document.querySelector('#feature-list .exit').addEventListener('click',()=>{
+            candidates.classList.remove('active');
+        });
+        document.querySelectorAll('.feature-option').forEach((option)=>{
+            option.querySelector('.icon-thumbs-up').addEventListener('click',()=>{
+                if (option.classList.contains('up') || option.classList.contains('down')) return;
+                option.classList.add('up');
+            });
+            option.querySelector('.icon-thumbs-down').addEventListener('click',()=>{
+                if (option.classList.contains('up') || option.classList.contains('down')) return;
+                option.classList.add('down');
+            });
+        });
+    });
+    popup.addEventListener('click',()=>{
+        candidates.classList.remove('active');
+        popup.classList.remove('active');
+    })
+
     await updateFeature();
 
     async function updateFeature() {
